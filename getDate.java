@@ -1,30 +1,21 @@
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.lang.String;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 
-
-//main needs to be static, when static, nothing else works.
-
-
 public class getDate {
-    public static String date1;
-    public static String dates = "";
-    public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    public static Calendar date;
+    public static String dates;
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public static Calendar date = Calendar.getInstance();
     public static Scanner reader = new Scanner(System.in);
-    public static String full;
-    public static String tomorrow;
-    public static String yesterday;
-    public static Date Choice;
-    public static String input;
 
-    public static void main(String[] args) throws ParseException {
-        System.out.println("Todays date? yes, no:");
+
+    public static void main(String[] args) {
+        String full;
+
+        System.out.println("Today's date? yes, no:");
         full = reader.nextLine();
 
         do {
@@ -41,19 +32,28 @@ public class getDate {
         } while (full.isEmpty());
     }
     private static void dateChoice() {
-        System.out.println("Date (format 'yyyy-mm-dd':");
-        date1 = reader.nextLine();
+        String nextDate;
+        String dateInString;
 
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        tomorrow = dateFormat.format(date.getTime());
+        System.out.println("Date Choice: (Format: yyyy-mm-dd)");
+        dateInString = reader.nextLine();
 
-        dates = date1 + ", " + tomorrow;
-        System.out.println("Selected date and the day after:");
-        System.out.println(date1);
+        try {
+            date.setTime(dateFormat.parse(dateInString));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        date.add(Calendar.DAY_OF_YEAR, +1);
+        nextDate = dateFormat.format(date.getTime());
+
+        dates = dateInString + ", " + nextDate;
+        System.out.println(dates);
     }
     private static void dateToday() {
-        date = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date1;
+        String yesterday;
+
         date1 = dateFormat.format(date.getTime());
 
         date.add(Calendar.DATE, -1);
